@@ -1,3 +1,5 @@
+import sys
+
 def addition(x,y):
     return x + y
 
@@ -10,7 +12,7 @@ def multiplication(x, y):
 def division(x, y):
     return x / y
 
-
+# Gets an input from the user. If the choice is wrong it automatically asks again without stopping the program
 def int_input(msg, num_range=None, loop=True):
     choice = None
 
@@ -28,6 +30,19 @@ def int_input(msg, num_range=None, loop=True):
 
     return choice
 
+# Assumes that interactive is always true, but if a file is given, it takes the values within the file.
+def get_values(interactive=True):
+    if interactive:
+        first_value = int_input("Enter a number: ", )
+        second_value = int_input("Enter a second number: ")
+    else:
+        with open(sys.argv[1]) as f:
+            vals = f.readlines()
+            # If there is less than 2 lines in the file, it shows an error.
+            if len(vals) < 2:
+                raise RuntimeError("Not enough numbers")
+            first_value, second_value = int(vals[0]), int(vals[1])
+    return first_value, second_value
 
 def main():
 
@@ -39,25 +54,25 @@ def main():
 
     choice = int_input("Chose an option:", range(1,5))
 
+    # If the commands given don't include a file, then it assumes it's interactive.
+    interactive = not len(sys.argv) > 1
+
     if choice == 1:
-        first_value = int_input("Enter a number: ", )
-        second_value = int_input("Enter a second number: ")
+        first_value, second_value = get_values(interactive)
         print first_value, "+", second_value,  "=", addition(first_value, second_value)
 
     elif choice == 2:
-        first_value = int_input("Enter a number: ")
-        second_value = int(raw_input("Enter a second number: "))
+        first_value, second_value = get_values(interactive)
         print first_value, "-", second_value, "=", substraction(first_value, second_value)
 
     elif choice == 3:
-        first_value = int(raw_input("Enter a number: "))
-        second_value = int(raw_input("Enter a second number: "))
+        first_value, second_value = get_values(interactive)
         print first_value, "*", second_value, "=", multiplication(first_value, second_value)
 
     elif choice == 4:
-        first_value = int(raw_input("Enter a number: "))
-        second_value = int(raw_input("Enter a second number: "))
+        first_value, second_value = get_values(interactive)
         print first_value, "/", second_value, "=", division(first_value, second_value)
- 
+
+
 if __name__ == '__main__':
     main()
