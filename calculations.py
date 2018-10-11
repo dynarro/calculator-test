@@ -52,7 +52,7 @@ def main():
     print("Enter 3 to make a  multiplication.")
     print("Enter 4 to make a division.")
 
-    choice = int_input("Chose an option:", range(1,5))
+    choice = int_input("Choose an option:", range(1,5))
 
     # If the commands given don't include a file, then it assumes it's interactive.
     interactive = not len(sys.argv) > 1
